@@ -9,7 +9,7 @@
 #include <span>
 #include <type_traits>
 
-namespace integra
+namespace hwlib::utilities
 {
 
 /// A buffer element: std::uint8_t or std::byte, either of them const or not.
@@ -206,4 +206,4 @@ private:
     bool m_failed{false};
 };
 
-} // namespace integra
+} // namespace hwlib::utilities

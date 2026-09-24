@@ -3,19 +3,19 @@
 Integers, enums and floats to and from big- or little-endian bytes, plus a cursor
 that reads a packet field by field. All constexpr.
 
-Part of [integra-lib](https://github.com/integra-lib) — architecture-independent C++20
+Part of [hwlib](https://github.com/integra-lib) — architecture-independent C++20
 components shared between firmware projects. Header-only,
 no exceptions, no RTTI.
 
 ```cpp
-#include <integra/byte_codec.hpp>
+#include <hwlib/utilities/byte_codec.hpp>
 
 // One value, fixed size: nothing can be short.
-const auto bytes = integra::Store<std::endian::big>(std::uint32_t{0x12345678U}); // {0x12, 0x34, 0x56, 0x78}
-const auto value = integra::Load<std::endian::big, std::uint32_t>(std::span{bytes});
+const auto bytes = hwlib::utilities::Store<std::endian::big>(std::uint32_t{0x12345678U}); // {0x12, 0x34, 0x56, 0x78}
+const auto value = hwlib::utilities::Load<std::endian::big, std::uint32_t>(std::span{bytes});
 
 // A packet: read the fields in order, check once at the end.
-integra::ByteReader<std::endian::little, std::byte> reader{payload};
+hwlib::utilities::ByteReader<std::endian::little, std::byte> reader{payload};
 reader >> vendor >> name >> version; // name is a std::array, read whole or not at all
 if (reader.Failed())
 {
@@ -29,16 +29,16 @@ or 8 bytes. A buffer is `std::uint8_t` or `std::byte`. The reader borrows its bu
 ## Use it
 
 ```bash
-git submodule add git@github.com:integra-lib/byte-codec.git external/integra/byte-codec
+git submodule add git@github.com:integra-lib/byte-codec.git external/hwlib/byte-codec
 ```
 
 ```cmake
-add_subdirectory(external/integra/byte-codec)
-target_link_libraries(app PRIVATE Integra::byte_codec)
+add_subdirectory(external/hwlib/byte-codec)
+target_link_libraries(app PRIVATE Hwlib::byte_codec)
 ```
 
 ```cpp
-#include <integra/byte_codec.hpp>
+#include <hwlib/utilities/byte_codec.hpp>
 ```
 
 Each component carries its own include directory, so this header stays unreachable
@@ -51,9 +51,9 @@ Every component is released on its own, tagged `vX.Y.Z`. Pre-1.0, a minor releas
 break the API, which is why dependants accept a single minor.
 
 ```bash
-git -C external/integra/byte-codec fetch --tags
-git -C external/integra/byte-codec checkout v0.2.0
-git add external/integra/byte-codec && git commit -m "build: bump byte-codec to v0.2.0"
+git -C external/hwlib/byte-codec fetch --tags
+git -C external/hwlib/byte-codec checkout v0.2.0
+git add external/hwlib/byte-codec && git commit -m "build: bump byte-codec to v0.2.0"
 ```
 
 ## In a consumer's CI

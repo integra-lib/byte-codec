@@ -4,16 +4,16 @@
 #include <bit>
 #include <cstddef>
 #include <cstdint>
-#include <integra/byte_codec.hpp>
+#include <hwlib/utilities/byte_codec.hpp>
 #include <limits>
 #include <span>
 
 namespace
 {
 
-using integra::ByteReader;
-using integra::Load;
-using integra::Store;
+using hwlib::utilities::ByteReader;
+using hwlib::utilities::Load;
+using hwlib::utilities::Store;
 
 constexpr auto BIG    = std::endian::big;
 constexpr auto LITTLE = std::endian::little;
@@ -33,14 +33,14 @@ template<std::endian ORDER, typename T>
 
 TEST(ByteCodecConceptTest, AcceptsOnlyTypesWithAFixedWireForm)
 {
-    static_assert(integra::Codable<char>);
-    static_assert(integra::Codable<Mode>);
-    static_assert(integra::Codable<double>);
-    static_assert(!integra::Codable<bool>);
-    static_assert(!integra::Codable<const std::uint8_t*>);
-    static_assert(integra::CodableArray<std::array<std::int16_t, 3>>);
-    static_assert(!integra::CodableArray<std::array<bool, 3>>);
-    static_assert(!integra::ByteLike<char>);
+    static_assert(hwlib::utilities::Codable<char>);
+    static_assert(hwlib::utilities::Codable<Mode>);
+    static_assert(hwlib::utilities::Codable<double>);
+    static_assert(!hwlib::utilities::Codable<bool>);
+    static_assert(!hwlib::utilities::Codable<const std::uint8_t*>);
+    static_assert(hwlib::utilities::CodableArray<std::array<std::int16_t, 3>>);
+    static_assert(!hwlib::utilities::CodableArray<std::array<bool, 3>>);
+    static_assert(!hwlib::utilities::ByteLike<char>);
     SUCCEED();
 }
 
